@@ -312,9 +312,12 @@ pub fn winit_runner_with(mut app: App, mut event_loop: EventLoop<()>) {
                         window
                             .update_cursor_physical_position_from_backend(Some(physical_position));
 
+                        let scaled_cursor_position = physical_position / window.scale_factor();
+                        let position = Vec2::new(scaled_cursor_position[0] as f32, scaled_cursor_position[1] as f32);
+
                         cursor_moved_events.send(CursorMoved {
                             id: window_id,
-                            position: (physical_position / window.scale_factor()).as_vec2(),
+                            position,
                         });
                     }
                     WindowEvent::CursorEntered { .. } => {

@@ -477,7 +477,10 @@ impl Window {
     #[doc(alias = "mouse position")]
     pub fn cursor_position(&self) -> Option<Vec2> {
         self.physical_cursor_position
-            .map(|p| (p / self.scale_factor()).as_vec2())
+            .map(|p| {
+                let scaled_cursor_position = p / self.scale_factor();
+                Vec2::new(scaled_cursor_position[0] as f32, scaled_cursor_position[1] as f32)
+            })
     }
 
     pub fn set_cursor_position(&mut self, position: Vec2) {
